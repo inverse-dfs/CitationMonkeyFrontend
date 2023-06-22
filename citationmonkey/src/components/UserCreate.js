@@ -10,6 +10,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import axios from 'axios';
 
 const defaultTheme = createTheme()
 
@@ -17,10 +18,20 @@ export function UserCreate() {
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const email = data.get('email')
+    const password = data.get('password')
+    const username = data.get('username')
+    
+    axios.post("http://54.242.252.72/signup", {
+      email: email,
+      password: password,
+      name: username,
+    }).then(function (response) {
+      console.log(response);
     })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   return (
@@ -43,25 +54,15 @@ export function UserCreate() {
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="username"
                   required
                   fullWidth
-                  id="firstName"
+                  id="username"
                   label="First Name"
                   autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -96,9 +97,9 @@ export function UserCreate() {
             </Button>
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="#" variant="body2">
+                {/* <Link href="#" variant="body2">
                   Already have an account? Sign in
-                </Link>
+                </Link> */}
               </Grid>
             </Grid>
           </Box>
