@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
-import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
@@ -15,6 +14,8 @@ import axios from 'axios';
 const defaultTheme = createTheme()
 
 export function UserCreate() {
+  const [status, setStatus] = React.useState("");
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -28,9 +29,12 @@ export function UserCreate() {
       name: username,
     }).then(function (response) {
       console.log(response);
+      // This will have to be changed later
+      setStatus(response.data)
     })
     .catch(function (error) {
       console.log(error);
+      setStatus(error);
     });
   }
 
@@ -73,6 +77,8 @@ export function UserCreate() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  error = {(status == "Invalid email provided, already exists!") ? true : false}
+                  helperText={(status == "Invalid email provided, already exists!") ? status : ""}
                 />
               </Grid>
               <Grid item xs={12}>
