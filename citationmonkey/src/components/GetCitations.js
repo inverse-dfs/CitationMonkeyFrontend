@@ -7,18 +7,23 @@ import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import RemoveIcon from '@mui/icons-material/Remove'
+import LinkIcon from '@mui/icons-material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import axios from 'axios';
 
 const defaultTheme = createTheme()
 
-export function DeletePaper() {
+export function GetCitations() {
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-        console.log({
-            add: data.get('deletePaper')
-        })
+        const paper_id = data.get('rootid')
+        axios.get("http://54.242.252.72/citations/"+paper_id).then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     return (
@@ -34,21 +39,21 @@ export function DeletePaper() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <RemoveIcon />
+                        <LinkIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
-                        Delete Paper
+                        Find Linked Citations
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="delete-paper"
-                                    name="deletePaper"
+                                    autoComplete="paperid"
+                                    name="rootid"
                                     required
                                     fullWidth
-                                    id="deletePaper"
-                                    label="Delete Paper"
+                                    id="rootid"
+                                    label="Root Paper ID"
                                     autoFocus
                                 />
                             </Grid>
@@ -59,7 +64,7 @@ export function DeletePaper() {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
                         >
-                            Submit Removal
+                            Find Linked Papers!
                         </Button>
                     </Box>
                 </Box>
