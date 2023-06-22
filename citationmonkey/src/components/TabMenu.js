@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { useState } from "react"
 import { AddPaper } from "./AddPaper"
-import { DeletePaper } from "./DeletePaper"
+import { GetCitations } from "./GetCitations"
 import { UpdatePaper } from "./UpdatePaper"
 import { UserCreate } from "./UserCreate"
 import { UserLogin } from "./UserLogin"
@@ -51,7 +51,7 @@ export function TabMenu() {
                     <Tab label="User Signup" {...a11yProps(0)} />
                     <Tab label="User Login" {...a11yProps(1)} />
                     <Tab label="Add Paper" {...a11yProps(2)} />
-                    <Tab label="Delete Paper" {...a11yProps(3)} />
+                    <Tab label="Find Linked Citations" {...a11yProps(3)} />
                     <Tab label="Update Paper" {...a11yProps(4)} />
                 </Tabs>
             </Box>
@@ -65,7 +65,7 @@ export function TabMenu() {
                 <AddPaper />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <DeletePaper />
+                <GetCitations />
             </TabPanel>
             <TabPanel value={value} index={4}>
                 <UpdatePaper />

@@ -1,4 +1,4 @@
-export { DeletePaper } from './DeletePaper.js'
+export { GetCitations } from './GetCitations.js'
 export { AddPaper } from './AddPaper.js'
 export { UpdatePaper } from './UpdatePaper.js'
 export { UserCreate } from './UserCreate.js'
