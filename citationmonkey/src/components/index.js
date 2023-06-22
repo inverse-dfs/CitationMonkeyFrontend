@@ -1,0 +1,6 @@
+export { DeletePaper } from './DeletePaper.js'
+export { AddPaper } from './AddPaper.js'
+export { UpdatePaper } from './UpdatePaper.js'
+export { UserCreate } from './UserCreate.js'
+export { UserLogin } from './UserLogin.js'
+export { TabMenu } from './TabMenu.js'
