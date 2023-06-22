@@ -15,6 +15,7 @@ import axios from 'axios';
 const defaultTheme = createTheme()
 
 export function UserLogin() {
+    const [status, setStatus] = React.useState("");
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
@@ -25,6 +26,7 @@ export function UserLogin() {
             password: password,
           }).then(function (response) {
             console.log(response);
+            setStatus(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -70,6 +72,8 @@ export function UserLogin() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            error = {(status == "Login Rejected") ? true : false}
+                            helperText={(status == "Login Rejected") ? "Incorrect Password, please try again" : ""}
                         />
                         <Button
                             type="submit"
