@@ -22,7 +22,7 @@ export function UserCreate() {
     const email = data.get('email')
     const password = data.get('password')
     const username = data.get('username')
-    
+
     axios.post("http://54.242.252.72/signup", {
       email: email,
       password: password,
@@ -32,10 +32,10 @@ export function UserCreate() {
       // This will have to be changed later
       setStatus(response.data)
     })
-    .catch(function (error) {
-      console.log(error);
-      setStatus(error);
-    });
+      .catch(function (error) {
+        console.log(error);
+        setStatus(error);
+      });
   }
 
   return (
@@ -77,7 +77,7 @@ export function UserCreate() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error = {(status == "Invalid email provided, already exists!") ? true : false}
+                  error={(status == "Invalid email provided, already exists!") ? true : false}
                   helperText={(status == "Invalid email provided, already exists!") ? status : ""}
                 />
               </Grid>
@@ -110,6 +110,19 @@ export function UserCreate() {
             </Grid>
           </Box>
         </Box>
+        {
+          status == "success" &&
+          <Box
+            sx={{
+              backgroundColor: '#2ED810',
+              textAlign: 'center',
+            }}
+          >
+            <Typography>
+              User successfully created!
+            </Typography>
+          </Box>
+        }
       </Container>
     </ThemeProvider>
   )

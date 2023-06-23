@@ -83,6 +83,19 @@ export function UserLogin() {
                         >
                             Sign In
                         </Button>
+                        {
+                            status == "Login Validated" && 
+                            <Box 
+                                sx={{
+                                    backgroundColor: '#2ED810',
+                                    textAlign: 'center',
+                                }}
+                            >
+                                <Typography>
+                                Successfully Logged in!
+                                </Typography>
+                            </Box>
+                        }
                         <Grid container justifyContent="center">
                             <Grid item>
                                 <Link href="#" variant="body2">
