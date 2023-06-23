@@ -1,1 +1,7 @@
 This repository holds the code needed for the front end of our full stack application.
+
+You need to have npm installed to run this app.
+
+Run ``npm i`` to install all needed packages
+
+Then `npm start` to start the web app, it should open up in your browser and run on localhost 3000.
