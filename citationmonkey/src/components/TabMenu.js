@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from "react"
 import { AddPaper } from "./AddPaper"
 import { GetCitations } from "./GetCitations"
-import { UpdatePaper } from "./UpdatePaper"
+import { KeywordSearch } from "./KeywordSearch"
 import { UserCreate } from "./UserCreate"
 import { UserLogin } from "./UserLogin"
 
@@ -52,7 +52,7 @@ export function TabMenu() {
                     <Tab label="User Login" {...a11yProps(1)} />
                     <Tab label="Add Paper" {...a11yProps(2)} />
                     <Tab label="Find Linked Citations" {...a11yProps(3)} />
-                    <Tab label="Update Paper" {...a11yProps(4)} />
+                    <Tab label="Paper Keyword Search" {...a11yProps(4)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -68,7 +68,7 @@ export function TabMenu() {
                 <GetCitations />
             </TabPanel>
             <TabPanel value={value} index={4}>
-                <UpdatePaper />
+                <KeywordSearch />
             </TabPanel>
         </Box>
     )
