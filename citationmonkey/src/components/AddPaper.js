@@ -10,11 +10,12 @@ import Container from '@mui/material/Container'
 import AddIcon from '@mui/icons-material/Add'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios';
-import { paste } from '@testing-library/user-event/dist/paste'
 
 const defaultTheme = createTheme()
 
 export function AddPaper() {
+    const [status, setStatus] = React.useState("");
+
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
@@ -36,6 +37,7 @@ export function AddPaper() {
         axios.put("http://54.242.252.72/publish", payload)
         .then(function (response) {
             console.log(response);
+            setStatus(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -83,6 +85,8 @@ export function AddPaper() {
                                     id="author"
                                     label="Author"
                                     autoFocus
+                                    error = {(status == "ERROR: No such author exists") ? true : false}
+                                    helperText={(status == "ERROR: No such author exists") ? "Author not found in database" : ""}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -227,6 +231,19 @@ export function AddPaper() {
                         </Button>
                     </Box>
                 </Box>
+                {
+                    status == "success" && 
+                    <Box 
+                        sx={{
+                            backgroundColor: '#2ED810',
+                            textAlign: 'center',
+                        }}
+                    >
+                        <Typography>
+                        Successfully added paper
+                        </Typography>
+                    </Box>
+                }
             </Container>
         </ThemeProvider>
     )
