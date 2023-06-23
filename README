@@ -2,6 +2,10 @@ This repository holds the code needed for the front end of our full stack applic
 
 You need to have npm installed to run this app.
 
-Run ``npm i`` to install all needed packages
+1. Clone this repo 
+2. cd into the repo, and cd in /citationmonkey
+3. run 'npm i' to install all needed packages
+4. run 'npm start' to start the web app locally, it should open up in your browser and run on localhost 3000
 
-Then `npm start` to start the web app, it should open up in your browser and run on localhost 3000.
+We will move this fully to the cloud, however for now it is a local web app. Though the database it interacts with is in the cloud. 
+
