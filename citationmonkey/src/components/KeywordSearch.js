@@ -2,6 +2,7 @@ import React from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
+import Divider from '@mui/material/Divider/Divider'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
@@ -14,6 +15,8 @@ import axios from 'axios';
 const defaultTheme = createTheme()
 
 export function KeywordSearch() {
+    const [data, setData] = React.useState(null);
+
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
@@ -21,6 +24,7 @@ export function KeywordSearch() {
         const trimmed_keywords = keywords.map(x=>x.trim()).join(',')
         axios.get("http://54.242.252.72/keywords/"+trimmed_keywords).then(function (response) {
             console.log(response);
+            setData(response.data)
           })
           .catch(function (error) {
             console.log(error);
@@ -69,6 +73,30 @@ export function KeywordSearch() {
                         </Button>
                     </Box>
                 </Box>
+                {data &&
+                        data.map((id) => {
+                            let val = "Id: " + id[0] + " \t \t Title: " + id[1] + "\t\t Number of citations:" + id[2]
+                            return (
+                                <Box
+                                    sx={{
+                                        width: '100%',
+                                        mb: 1,
+                                    }}
+                                >
+                                    <Typography>
+                                        <strong>Paper Id: </strong> {id[0]}
+                                    </Typography>
+                                    <Typography>
+                                        <strong>Title: </strong> {id[1]}
+                                    </Typography>
+                                    <Typography>
+                                        <strong>Field of Study:  </strong> {id[3]}
+                                    </Typography>
+                                    <Divider sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
+                                </Box>
+                            )
+                        })
+                    }
             </Container>
         </ThemeProvider>
     )
