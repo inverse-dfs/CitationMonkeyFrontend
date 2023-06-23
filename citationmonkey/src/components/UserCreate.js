@@ -77,8 +77,8 @@ export function UserCreate() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={(status == "Invalid email provided, already exists!") ? true : false}
-                  helperText={(status == "Invalid email provided, already exists!") ? status : ""}
+                  error={(status === "Invalid email provided, already exists!") ? true : false}
+                  helperText={(status === "Invalid email provided, already exists!") ? status : ""}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -111,7 +111,7 @@ export function UserCreate() {
           </Box>
         </Box>
         {
-          status == "success" &&
+          status === "success" &&
           <Box
             sx={{
               backgroundColor: '#2ED810',

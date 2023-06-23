@@ -85,8 +85,8 @@ export function AddPaper() {
                                     id="author"
                                     label="Author"
                                     autoFocus
-                                    error = {(status == "ERROR: No such author exists") ? true : false}
-                                    helperText={(status == "ERROR: No such author exists") ? "Author not found in database" : ""}
+                                    error = {(status === "ERROR: No such author exists") ? true : false}
+                                    helperText={(status === "ERROR: No such author exists") ? "Author not found in database" : ""}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -232,7 +232,7 @@ export function AddPaper() {
                     </Box>
                 </Box>
                 {
-                    status == "success" && 
+                    status === "success" && 
                     <Box 
                         sx={{
                             backgroundColor: '#2ED810',

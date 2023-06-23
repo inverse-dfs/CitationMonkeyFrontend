@@ -75,7 +75,6 @@ export function KeywordSearch() {
                 </Box>
                 {data &&
                         data.map((id) => {
-                            let val = "Id: " + id[0] + " \t \t Title: " + id[1] + "\t\t Number of citations:" + id[2]
                             return (
                                 <Box
                                     sx={{
