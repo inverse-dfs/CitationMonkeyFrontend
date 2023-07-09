@@ -22,7 +22,7 @@ export function KeywordSearch() {
     const defaultFirstConditionVal:queryObject = { field: queryField.KEYWORDS, value: "", boolean: booleanLogic.None }
     const queryParams = React.useRef<Map<number, queryObject>>(new Map([[1, defaultFirstConditionVal]]))
     
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         console.log(queryParams.current)
         // const data = new FormData(event.currentTarget)

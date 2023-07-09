@@ -1,6 +1,6 @@
 import FormControl from '@mui/material/FormControl/FormControl';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
+import Select from '@mui/material/Select/Select';
 import TextField from '@mui/material/TextField/TextField';
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { queryObject, queryField, booleanLogic } from '../types/queries.ts';
