@@ -2,7 +2,7 @@ import FormControl from '@mui/material/FormControl/FormControl';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
 import TextField from '@mui/material/TextField/TextField';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { queryObject, queryField, booleanLogic } from '../types/queries.ts';
 import { Box } from '@mui/material';
 
@@ -42,7 +42,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
           >
             {
               Object.values(booleanLogic).map(val => {
-                if (val !== booleanLogic.None) return <MenuItem value={val}>{val}</MenuItem>
+                if (val !== booleanLogic.None) return <MenuItem key={val} value={val}>{val}</MenuItem>
               }
               )
             }
@@ -60,7 +60,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
         >
           {
             Object.values(queryField).map(val =>
-              <MenuItem value={val}>{val}</MenuItem>
+              <MenuItem value={val} key={val}>{val}</MenuItem>
             )
           }
         </Select>
@@ -69,8 +69,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
         <TextField
           name="value"
           required
-          id="keywords"
-          label="Keywords"
+          id="value"
           autoFocus
           onChange={handleChange}
         />
