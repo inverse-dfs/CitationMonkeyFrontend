@@ -2,33 +2,17 @@ import FormControl from '@mui/material/FormControl/FormControl';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select/Select';
 import TextField from '@mui/material/TextField/TextField';
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
+import { queryObject, queryField, booleanLogic } from '../types/queries.ts';
+import { Box } from '@mui/material';
 
 interface QueryParamProps {
   first: boolean,
+  id: number,
+  updateQueryParam: (id: number, newVal: queryObject) => void,
 }
 
-interface queryObject {
-  field: queryField,
-  value: string,
-  boolean: booleanLogic
-}
-
-enum queryField {
-  AUTHOR = "Author",
-  KEYWORDS = "Keywords",
-  TITLE = "Title"
-}
-
-// temporarily remove or for simplicity
-enum booleanLogic {
-  None = "None",
-  AND = "AND",
-  // OR = "OR",
-  NOT = "NOT"
-}
-
-const QueryParam: FunctionComponent<QueryParamProps> = ({ first }) => {
+const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQueryParam }) => {
   const [val, setVal] = useState<queryObject>({ field: queryField.KEYWORDS, value: "", boolean: (first) ? booleanLogic.None : booleanLogic.AND })
 
   // event is really of type: SelectChangeEvent<booleanLogic> | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
@@ -42,8 +26,12 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first }) => {
     })
   }
 
+  useEffect(() => {
+    updateQueryParam(id, val)
+  }, [val])
+
   return (
-    <div>
+    <Box key={id}>
       {!first &&
         <FormControl sx={{ m: 1, width: '15%' }}>
           <Select
@@ -87,7 +75,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first }) => {
           onChange={handleChange}
         />
       </FormControl>
-    </div>
+    </Box>
   );
 }
 

@@ -12,39 +12,47 @@ import KeyIcon from '@mui/icons-material/Key';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios';
 import QueryParam from './QueryParam.tsx'
+import { booleanLogic, queryField, queryObject } from '../types/queries.ts'
 
 const defaultTheme = createTheme()
 
 export function KeywordSearch() {
-    const [data, setData] = React.useState(null);
-    const [conditionNumber, setConditionNumber] = React.useState([1])
-    const [count, setCount] = React.useState(1)
-
+    const [data, setData] = React.useState<any[] | null>(null);
+    const [conditionNumber, setConditionNumber] = React.useState(1)
+    const defaultFirstConditionVal:queryObject = { field: queryField.KEYWORDS, value: "", boolean: booleanLogic.None }
+    const queryParams = React.useRef<Map<number, queryObject>>(new Map([[1, defaultFirstConditionVal]]))
+    
     const handleSubmit = (event) => {
         event.preventDefault()
-        const data = new FormData(event.currentTarget)
-        const keywords = data.get('keywords').split(',')
-        const trimmed_keywords = keywords.map(x => x.trim()).join(',')
-        axios.get("http://54.242.252.72/keywords/" + trimmed_keywords).then(function (response) {
-            console.log(response);
-            setData(response.data)
-        })
-            .catch(function (error) {
-                console.log(error);
-            });
+        console.log(queryParams.current)
+        // const data = new FormData(event.currentTarget)
+        // const keywords = data.get('keywords')!.split(',')
+        // const trimmed_keywords = keywords.map(x => x.trim()).join(',')
+        // axios.get("http://54.242.252.72/keywords/" + trimmed_keywords).then(function (response) {
+        //     console.log(response);
+        //     setData(response.data)
+        // })
+        //     .catch(function (error) {
+        //         console.log(error);
+        //     });
     }
 
-    const addNewLine = () => {
-        setConditionNumber((curr) => {
-            const lastVal = curr[curr.length - 1]
-            curr.push(lastVal + 1)
-            return [...curr]
-        })
+    const updateQueryParam = React.useCallback(
+        (id: number, newValue: queryObject): void => {
+            queryParams.current.set(id, newValue)
+        },
+        [conditionNumber]);
 
+    const addNewLine = () => {
+        let newId = conditionNumber + 1
+        setConditionNumber((curr) => curr + 1)
+        queryParams.current.set(newId, {...defaultFirstConditionVal, boolean: booleanLogic.AND})
     }
 
     const clearQuery = () => {
-        setConditionNumber([1])
+        setConditionNumber(1)
+        queryParams.current.clear()
+        queryParams.current.set(1, defaultFirstConditionVal)
     }
 
     return (
@@ -87,9 +95,9 @@ export function KeywordSearch() {
                                     autoFocus
                                 /> */}
                             {
-                                conditionNumber.map((id) => {
-                                    if (id === 1) return <QueryParam first={true} key={id} />
-                                    else return <QueryParam first={false} key={id} />
+                                [...queryParams.current].map(([id, val]) => {
+                                    if (id === 1) return <QueryParam first={true} id={id} updateQueryParam={updateQueryParam}/>
+                                    else return <QueryParam first={false} id={id} updateQueryParam={updateQueryParam}/>
                                 })
                             }
                         </Grid>
@@ -100,7 +108,6 @@ export function KeywordSearch() {
                         }}
                     >
                         <Button
-                            minWidth="50%"
                             variant="text"
                             sx={{ mt: 2 }}
                             onClick={addNewLine}
@@ -108,7 +115,6 @@ export function KeywordSearch() {
                             Add New Line
                         </Button>
                         <Button
-                            minWidth="50%"
                             variant="text"
                             sx={{ mt: 2 }}
                             onClick={clearQuery}
