@@ -20,10 +20,11 @@ enum queryField {
   TITLE = "Title"
 }
 
+// temporarily remove or for simplicity
 enum booleanLogic {
   None = "None",
   AND = "AND",
-  OR = "OR",
+  // OR = "OR",
   NOT = "NOT"
 }
 
@@ -33,8 +34,6 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first }) => {
   // event is really of type: SelectChangeEvent<booleanLogic> | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
   // but it gives weird error since ig it is too general from the cases we use such that event.target may not exist
   const handleChange = (event: any) => {
-    console.log(event?.target.name)
-    console.log(event?.target.value)
     setVal((cur) => {
       return {
         ...cur, 
@@ -70,7 +69,6 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first }) => {
           value={val.field}
           onChange={handleChange}
           displayEmpty
-          inputProps={{ 'aria-label': 'Without label' }}
         >
           {
             Object.values(queryField).map(val =>
