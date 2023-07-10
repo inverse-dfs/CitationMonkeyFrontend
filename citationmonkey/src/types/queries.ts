@@ -8,6 +8,7 @@ export enum booleanLogic {
 
 export interface queryObject {
     field: queryField,
+    equality: equality,
     value: string,
     boolean: booleanLogic
 }
@@ -16,4 +17,9 @@ export enum queryField {
     AUTHOR = "Author",
     KEYWORDS = "Keywords",
     TITLE = "Title"
+}
+
+export enum equality {
+    CONTAINS = "Contains",
+    EXACT = "Exact"
 }

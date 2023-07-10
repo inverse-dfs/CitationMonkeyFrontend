@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
 import TextField from '@mui/material/TextField/TextField';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { queryObject, queryField, booleanLogic } from '../types/queries.ts';
+import { queryObject, queryField, booleanLogic, equality } from '../types/queries.ts';
 import { Box } from '@mui/material';
 
 interface QueryParamProps {
@@ -13,7 +13,7 @@ interface QueryParamProps {
 }
 
 const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQueryParam }) => {
-  const [val, setVal] = useState<queryObject>({ field: queryField.KEYWORDS, value: "", boolean: (first) ? booleanLogic.None : booleanLogic.AND })
+  const [val, setVal] = useState<queryObject>({ field: queryField.KEYWORDS, value: "", equality: equality.EXACT, boolean: (first) ? booleanLogic.None : booleanLogic.AND })
 
   // event is really of type: SelectChangeEvent<booleanLogic> | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
   // but it gives weird error since ig it is too general from the cases we use such that event.target may not exist
@@ -50,7 +50,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
         </FormControl>
       }
 
-      <FormControl sx={{ m: 1, width: '24%' }}>
+      <FormControl sx={{ m: 1, width: '14%' }}>
         <Select
           name = "field"
           id="FieldLogic"
@@ -65,7 +65,22 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
           }
         </Select>
       </FormControl>
-      <FormControl sx={{ m: 1, width: (first) ? '70%' : '52%' }}>
+      <FormControl sx={{ m: 1, width: '14%' }}>
+        <Select
+          name = "equality"
+          id="equality"
+          value={val.equality}
+          onChange={handleChange}
+          displayEmpty
+        >
+          {
+            Object.values(equality).map(val =>
+              <MenuItem value={val} key={val}>{val}</MenuItem>
+            )
+          }
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, width: (first) ? '66%' : '49%' }}>
         <TextField
           name="value"
           required

@@ -12,23 +12,24 @@ import KeyIcon from '@mui/icons-material/Key';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios';
 import QueryParam from './QueryParam.tsx'
-import { booleanLogic, queryField, queryObject } from '../types/queries.ts'
+import { booleanLogic, equality, queryField, queryObject } from '../types/queries.ts'
 
 const defaultTheme = createTheme()
 
 export function KeywordSearch() {
     const [data, setData] = React.useState<any[] | null>(null);
     const [conditionNumber, setConditionNumber] = React.useState(1)
-    const defaultFirstConditionVal:queryObject = { field: queryField.KEYWORDS, value: "", boolean: booleanLogic.None }
+    const defaultFirstConditionVal:queryObject = { field: queryField.KEYWORDS, equality: equality.EXACT, value: "", boolean: booleanLogic.None }
     const queryParams = React.useRef<Map<number, queryObject>>(new Map([[1, defaultFirstConditionVal]]))
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        console.log(queryParams.current)
-        // const data = new FormData(event.currentTarget)
+        // console.log(queryParams.current)
+        const obj = Object.fromEntries(queryParams.current)
+        console.log(obj)
         // const keywords = data.get('keywords')!.split(',')
         // const trimmed_keywords = keywords.map(x => x.trim()).join(',')
-        // axios.get("http://54.242.252.72/keywords/" + trimmed_keywords).then(function (response) {
+        // axios.post("http://54.242.252.72/keywords/", obj).then(function (response) {
         //     console.log(response);
         //     setData(response.data)
         // })
@@ -57,7 +58,7 @@ export function KeywordSearch() {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="sm">
+            <Container component="main" maxWidth="md">
                 <CssBaseline />
                 <Box
                     sx={{
