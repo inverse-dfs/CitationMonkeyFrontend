@@ -65,6 +65,37 @@ export function KeywordSearch() {
         }
     }, [conditionNumber])
 
+    const displayData = () => {
+        if (data == null) return <></>
+        else if (data.length == 0) return <Typography component={'div'}>No Entries Found</Typography>
+        else {
+            return (
+                data.map((id) => {
+                    return (
+                        <Box
+                            sx={{
+                                width: '100%',
+                                mb: 1,
+                            }}
+                            key={id}
+                        >
+                            <Typography component={'div'}>
+                                <strong>Paper Id: </strong> {id[0]}
+                            </Typography>
+                            <Typography component={'div'}>
+                                <strong>Title: </strong> {id[1]}
+                            </Typography>
+                            <Typography component={'div'}>
+                                <strong>Field of Study:  </strong> {id[3]}
+                            </Typography>
+                            <Divider component={'div'} sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
+                        </Box>
+                    )
+                })
+            )
+        }
+    }
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="md">
@@ -90,7 +121,7 @@ export function KeywordSearch() {
                     onSubmit={handleSubmit}
                     sx={{
                         mt: 3,
-                        border: '2px solid red'
+                        // border: '2px solid red'
                     }}
                 >
                     <Grid container spacing={2}>
@@ -148,28 +179,7 @@ export function KeywordSearch() {
                     </Button>
                 </Box>
                 {data &&
-                    data.map((id) => {
-                        return (
-                            <Box
-                                sx={{
-                                    width: '100%',
-                                    mb: 1,
-                                }}
-                                key={id}
-                            >
-                                <Typography component={'div'}>
-                                    <strong>Paper Id: </strong> {id[0]}
-                                </Typography>
-                                <Typography component={'div'}>
-                                    <strong>Title: </strong> {id[1]}
-                                </Typography>
-                                <Typography component={'div'}>
-                                    <strong>Field of Study:  </strong> {id[3]}
-                                </Typography>
-                                <Divider component={'div'} sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
-                            </Box>
-                        )
-                    })
+                    displayData()
                 }
             </Container>
         </ThemeProvider>
