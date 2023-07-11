@@ -9,12 +9,19 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { Link } from '@mui/material'
 import axios from 'axios';
 
 const defaultTheme = createTheme()
 
 export function UserCreate() {
-  const [status, setStatus] = React.useState("");
+  const defaultObj = {
+    email:'',
+    password:'',
+    username:''
+  }
+  const [errorStatusMap, setErrorStatusMap] = React.useState(defaultObj)
+  const [status, setStatus] = React.useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -23,19 +30,36 @@ export function UserCreate() {
     const password = data.get('password')
     const username = data.get('username')
 
-    axios.post("http://54.242.252.72/signup", {
-      email: email,
-      password: password,
-      name: username,
-    }).then(function (response) {
-      console.log(response);
-      // This will have to be changed later
-      setStatus(response.data)
-    })
-      .catch(function (error) {
+    if (!email) {
+      setErrorStatusMap({ ...errorStatusMap, email: 'Email is required' })
+    } else {
+      setErrorStatusMap({ ...errorStatusMap, email: '' })
+    }
+
+    if (!password) {
+      setErrorStatusMap({ email: 'Email is required', ...errorStatusMap })
+    } else {
+      setErrorStatusMap({ email: 'Email is required', ...errorStatusMap })
+    }
+
+    if (!username) {
+      setErrorStatusMap({ email: 'Email is required', ...errorStatusMap })
+    } else {
+      setErrorStatusMap({ email: 'Email is required', ...errorStatusMap })
+    }
+
+    if (email && password && username) {
+      axios.post("http://54.242.252.72/signup", {
+        email: email,
+        password: password,
+        name: username,
+      }).then(function (response) {
+        setStatus('success')
+      }).catch(function (error) {
         console.log(error);
         setStatus(error);
       });
+    }
   }
 
   return (
@@ -65,7 +89,9 @@ export function UserCreate() {
                   required
                   fullWidth
                   id="username"
-                  label="First Name"
+                  label="Username"
+                  error={errorStatusMap['username'] ? true : false}
+                  helperText={errorStatusMap['username']}
                   autoFocus
                 />
               </Grid>
@@ -77,8 +103,8 @@ export function UserCreate() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={(status === "Invalid email provided, already exists!") ? true : false}
-                  helperText={(status === "Invalid email provided, already exists!") ? status : ""}
+                  error={errorStatusMap['email'] ? true : false}
+                  helperText={errorStatusMap['email']}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,9 +116,12 @@ export function UserCreate() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={errorStatusMap['password'] ? true : false}
+                  helperText={errorStatusMap['password']}
                 />
               </Grid>
             </Grid>
+
             <Button
               type="submit"
               fullWidth
@@ -101,28 +130,27 @@ export function UserCreate() {
             >
               Sign Up
             </Button>
+            {
+              status === "success" &&
+              <Box
+                sx={{
+                  color: '#318500',
+                  textAlign: 'center'
+                }}
+              >
+                <Typography>
+                  User successfully created!
+                </Typography>
+              </Box>
+            }
             <Grid container justifyContent="center">
-              <Grid item>
-                {/* <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link> */}
-              </Grid>
+              <Link href="#" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
+
           </Box>
         </Box>
-        {
-          status === "success" &&
-          <Box
-            sx={{
-              backgroundColor: '#2ED810',
-              textAlign: 'center',
-            }}
-          >
-            <Typography>
-              User successfully created!
-            </Typography>
-          </Box>
-        }
       </Container>
     </ThemeProvider>
   )

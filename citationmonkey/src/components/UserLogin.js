@@ -15,22 +15,44 @@ import axios from 'axios';
 const defaultTheme = createTheme()
 
 export function UserLogin() {
-    const [status, setStatus] = React.useState("");
+    const [errorStatusMap, setErrorStatusMap] = React.useState({
+        'email': '',
+        'password': '',
+    })
+    const [status, setStatus] = React.useState('')
+
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const email = data.get('email')
         const password = data.get('password')
-        axios.post("http://54.242.252.72/login", {
-            email: email,
-            password: password,
-          }).then(function (response) {
-            console.log(response);
-            setStatus(response.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+
+        if (!email) {
+            setErrorStatusMap((prev) => {return {'email': 'Email is required', ...prev}})
+        } else {
+            setErrorStatusMap((prev) => {return {'email': '', ...prev}})
+        }
+
+        if (!password) {
+            setErrorStatusMap((prev) => {return {'password': 'Password is required', ...prev}})
+        } else {
+            setErrorStatusMap((prev) => {return {'password': '', ...prev}})
+        }
+
+        if (email && password) {
+            axios.post("http://54.242.252.72/login", {
+                email: email,
+                password: password,
+            }).then(function (response) {
+                if (response.data) {
+                    setStatus(response.data)
+                }
+
+            }).catch(function (error) {
+                console.log(error);
+                setStatus(error);
+            });
+        }
     }
 
     return (
@@ -62,6 +84,8 @@ export function UserLogin() {
                             name="email"
                             autoComplete="email"
                             autoFocus
+                            error={errorStatusMap['email'] ? true : false}
+                            helperText={errorStatusMap['email']}
                         />
                         <TextField
                             margin="normal"
@@ -72,8 +96,8 @@ export function UserLogin() {
                             type="password"
                             id="password"
                             autoComplete="current-password"
-                            error = {(status == "Login Rejected") ? true : false}
-                            helperText={(status == "Login Rejected") ? "Incorrect Password, please try again" : ""}
+                            error={errorStatusMap['password'] ? true : false}
+                            helperText={errorStatusMap['password']}
                         />
                         <Button
                             type="submit"
@@ -84,15 +108,28 @@ export function UserLogin() {
                             Sign In
                         </Button>
                         {
-                            status == "Login Validated" && 
-                            <Box 
+                            status === "Login Validated" &&
+                            <Box
                                 sx={{
-                                    backgroundColor: '#2ED810',
+                                    color: '#318500',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                <Typography>
+                                    Successfully Logged in!
+                                </Typography>
+                            </Box>
+                        }
+                        {
+                            status === "Login Rejected" &&
+                            <Box
+                                sx={{
+                                    color: '#FF0000',
                                     textAlign: 'center',
                                 }}
                             >
                                 <Typography>
-                                Successfully Logged in!
+                                    Credentials Invalid!
                                 </Typography>
                             </Box>
                         }

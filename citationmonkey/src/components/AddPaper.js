@@ -14,7 +14,15 @@ import axios from 'axios';
 const defaultTheme = createTheme()
 
 export function AddPaper() {
-    const [status, setStatus] = React.useState("");
+    const [status, setStatus] = React.useState("")
+    const [errorStatusMap, setErrorStatusMap] = React.useState({
+        'title': '',
+        'author': '',
+        'fieldOfStudy': '',
+        'url': '',
+        'cites': '',
+        'year': '',
+    })
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -28,20 +36,20 @@ export function AddPaper() {
             url: data.get('url'),
         }
 
-        const potential_fields = ['abstract', 'page_start', 'page_end', 'doc_type', 
-                    'lang', 'vol', 'issue', 'issn', 'isbn', 'doi', 'abstract']
-        for (const x of potential_fields) { 
-            if (data.has(x)){payload[x] = data.get(x)}
+        const potential_fields = ['abstract', 'page_start', 'page_end', 'doc_type',
+            'lang', 'vol', 'issue', 'issn', 'isbn', 'doi', 'abstract']
+        for (const x of potential_fields) {
+            if (data.has(x)) { payload[x] = data.get(x) }
         }
 
         axios.put("http://54.242.252.72/publish", payload)
-        .then(function (response) {
-            console.log(response);
-            setStatus(response.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            .then(function (response) {
+                console.log(response);
+                setStatus(response.data)
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     return (
@@ -74,7 +82,7 @@ export function AddPaper() {
                                     label="Title"
                                     autoFocus
                                 />
-                                
+
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -85,7 +93,7 @@ export function AddPaper() {
                                     id="author"
                                     label="Author"
                                     autoFocus
-                                    error = {(status === "ERROR: No such author exists") ? true : false}
+                                    error={(status === "ERROR: No such author exists") ? true : false}
                                     helperText={(status === "ERROR: No such author exists") ? "Author not found in database" : ""}
                                 />
                             </Grid>
@@ -100,7 +108,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField 
+                                <TextField
                                     autoComplete="fos-paper"
                                     name="fos"
                                     required
@@ -110,7 +118,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField 
+                                <TextField
                                     autoComplete="url-paper"
                                     name="url"
                                     required
@@ -120,7 +128,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="n_citations-paper"
                                     name="n_citations"
                                     required
@@ -130,7 +138,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="year-paper"
                                     name="year"
                                     required
@@ -140,7 +148,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="lang-paper"
                                     name="lang"
                                     id="lang"
@@ -149,7 +157,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="pagestart-paper"
                                     name="pagestart"
                                     id="pagestart"
@@ -158,7 +166,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="pageend-paper"
                                     name="pageend"
                                     id="pageend"
@@ -167,7 +175,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="doctype-paper"
                                     name="doctype"
                                     id="doctype"
@@ -176,7 +184,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="doi-paper"
                                     name="doi"
                                     id="doi"
@@ -185,7 +193,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="vol-paper"
                                     name="vol"
                                     id="vol"
@@ -194,7 +202,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <TextField 
+                                <TextField
                                     autoComplete="issue-paper"
                                     name="issue"
                                     id="issue"
@@ -203,7 +211,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField 
+                                <TextField
                                     autoComplete="issn-paper"
                                     name="issn"
                                     id="issn"
@@ -212,7 +220,7 @@ export function AddPaper() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField 
+                                <TextField
                                     autoComplete="isbn-paper"
                                     name="isbn"
                                     id="isbn"
@@ -232,15 +240,15 @@ export function AddPaper() {
                     </Box>
                 </Box>
                 {
-                    status === "success" && 
-                    <Box 
+                    status === "success" &&
+                    <Box
                         sx={{
                             backgroundColor: '#2ED810',
                             textAlign: 'center',
                         }}
                     >
                         <Typography>
-                        Successfully added paper
+                            Successfully added paper
                         </Typography>
                     </Box>
                 }
