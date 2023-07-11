@@ -2,18 +2,18 @@ import FormControl from '@mui/material/FormControl/FormControl';
 import MenuItem from '@mui/material/MenuItem/MenuItem';
 import Select from '@mui/material/Select/Select';
 import TextField from '@mui/material/TextField/TextField';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState, Fragment } from 'react';
 import { queryObject, queryField, booleanLogic, equality } from '../types/queries.ts';
-import { Box } from '@mui/material';
 
 interface QueryParamProps {
   first: boolean,
   id: number,
+  defaultValue: queryObject,
   updateQueryParam: (id: number, newVal: queryObject) => void,
 }
 
-const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQueryParam }) => {
-  const [val, setVal] = useState<queryObject>({ field: queryField.KEYWORDS, value: "", equality: equality.EXACT, boolean: (first) ? booleanLogic.None : booleanLogic.AND })
+const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, defaultValue, updateQueryParam }) => {
+  const [val, setVal] = useState<queryObject>(defaultValue)
 
   // event is really of type: SelectChangeEvent<booleanLogic> | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined
   // but it gives weird error since ig it is too general from the cases we use such that event.target may not exist
@@ -31,7 +31,7 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
   }, [val])
 
   return (
-    <Box key={id}>
+    <Fragment>
       {!first &&
         <FormControl sx={{ m: 1, width: '15%' }}>
           <Select
@@ -84,12 +84,13 @@ const QueryParam: FunctionComponent<QueryParamProps> = ({ first, id, updateQuery
         <TextField
           name="value"
           required
+          value={val.value}
           id="value"
           autoFocus
           onChange={handleChange}
         />
       </FormControl>
-    </Box>
+    </Fragment>
   );
 }
 

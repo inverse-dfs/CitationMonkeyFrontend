@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import Divider from '@mui/material/Divider/Divider'
-import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -19,23 +18,21 @@ const defaultTheme = createTheme()
 export function KeywordSearch() {
     const [data, setData] = React.useState<any[] | null>(null);
     const [conditionNumber, setConditionNumber] = React.useState(1)
-    const defaultFirstConditionVal:queryObject = { field: queryField.KEYWORDS, equality: equality.EXACT, value: "", boolean: booleanLogic.None }
+    const defaultFirstConditionVal: queryObject = { field: queryField.KEYWORDS, equality: equality.EXACT, value: "", boolean: booleanLogic.None }
     const queryParams = React.useRef<Map<number, queryObject>>(new Map([[1, defaultFirstConditionVal]]))
-    
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         // console.log(queryParams.current)
         const obj = Object.fromEntries(queryParams.current)
         console.log(obj)
-        // const keywords = data.get('keywords')!.split(',')
-        // const trimmed_keywords = keywords.map(x => x.trim()).join(',')
-        // axios.post("http://54.242.252.72/keywords/", obj).then(function (response) {
-        //     console.log(response);
-        //     setData(response.data)
-        // })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+        axios.post("http://54.242.252.72/keywords", obj).then(function (response) {
+            console.log(response);
+            setData(response.data)
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     const updateQueryParam = React.useCallback(
@@ -47,14 +44,26 @@ export function KeywordSearch() {
     const addNewLine = () => {
         let newId = conditionNumber + 1
         setConditionNumber((curr) => curr + 1)
-        queryParams.current.set(newId, {...defaultFirstConditionVal, boolean: booleanLogic.AND})
+        queryParams.current.set(newId, { ...defaultFirstConditionVal, boolean: booleanLogic.AND })
     }
 
     const clearQuery = () => {
-        setConditionNumber(1)
         queryParams.current.clear()
-        queryParams.current.set(1, defaultFirstConditionVal)
+        setConditionNumber(0)
+        setData(null)
     }
+
+    // Why don't I just put this in the clearQuery command and remove a useEffect?
+    // because react will not reload the first queryParam despite having
+    // different prop values due to the default value being cleared
+    // why? probabaly since it is a reference idk so now we get this 
+    // ugly hack
+    useEffect(() => {
+        if (conditionNumber == 0) {
+            queryParams.current.set(1, defaultFirstConditionVal)
+            setConditionNumber(1)
+        }
+    }, [conditionNumber])
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -86,19 +95,25 @@ export function KeywordSearch() {
                 >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            {/* <TextField
-                                    autoComplete="update-paper"
-                                    name="keywords"
-                                    required
-                                    fullWidth
-                                    id="keywords"
-                                    label="Keywords"
-                                    autoFocus
-                                /> */}
                             {
                                 [...queryParams.current].map(([id, val]) => {
-                                    if (id === 1) return <QueryParam first={true} id={id} updateQueryParam={updateQueryParam}/>
-                                    else return <QueryParam first={false} id={id} updateQueryParam={updateQueryParam}/>
+                                    if (id === 1) {
+                                        return <QueryParam
+                                            first={true}
+                                            key={id}
+                                            id={id}
+                                            defaultValue={queryParams.current.get(id)!}
+                                            updateQueryParam={updateQueryParam}
+                                        />
+                                    }
+                                    else {
+                                        return <QueryParam
+                                            first={false}
+                                            key={id}
+                                            id={id}
+                                            defaultValue={queryParams.current.get(id)!}
+                                            updateQueryParam={updateQueryParam} />
+                                    }
                                 })
                             }
                         </Grid>
@@ -140,17 +155,18 @@ export function KeywordSearch() {
                                     width: '100%',
                                     mb: 1,
                                 }}
+                                key={id}
                             >
-                                <Typography>
+                                <Typography component={'div'}>
                                     <strong>Paper Id: </strong> {id[0]}
                                 </Typography>
-                                <Typography>
+                                <Typography component={'div'}>
                                     <strong>Title: </strong> {id[1]}
                                 </Typography>
-                                <Typography>
+                                <Typography component={'div'}>
                                     <strong>Field of Study:  </strong> {id[3]}
                                 </Typography>
-                                <Divider sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
+                                <Divider component={'div'} sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
                             </Box>
                         )
                     })
