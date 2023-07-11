@@ -7,8 +7,7 @@ import { useState } from "react"
 import { AddPaper } from "./AddPaper"
 import { GetCitations } from "./GetCitations"
 import { KeywordSearch } from "./KeywordSearch"
-import { UserCreate } from "./UserCreate"
-import { UserLogin } from "./UserLogin"
+import { UpdatePaper } from "./UpdatePaper"
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -48,26 +47,22 @@ export function TabMenu() {
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} centered>
-                    <Tab label="User Signup" {...a11yProps(0)} />
-                    <Tab label="User Login" {...a11yProps(1)} />
-                    <Tab label="Add Paper" {...a11yProps(2)} />
-                    <Tab label="Find Linked Citations" {...a11yProps(3)} />
-                    <Tab label="Paper Keyword Search" {...a11yProps(4)} />
+                    <Tab label="Add Paper" {...a11yProps(0)} />
+                    <Tab label="Update Paper" {...a11yProps(1)} />
+                    <Tab label="Find Linked Citations" {...a11yProps(2)} />
+                    <Tab label="Paper Keyword Search" {...a11yProps(3)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <UserCreate />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <UserLogin />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
                 <AddPaper />
             </TabPanel>
-            <TabPanel value={value} index={3}>
+            <TabPanel value={value} index={1}>
+                <UpdatePaper />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
                 <GetCitations />
             </TabPanel>
-            <TabPanel value={value} index={4}>
+            <TabPanel value={value} index={3}>
                 <KeywordSearch />
             </TabPanel>
         </Box>

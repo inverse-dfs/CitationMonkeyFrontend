@@ -19,7 +19,7 @@ export function UserCreate() {
     email:'',
     password:'',
     username:''
-  }
+  } 
   const [errorStatusMap, setErrorStatusMap] = React.useState(defaultObj)
   const [status, setStatus] = React.useState('')
 
