@@ -2,7 +2,7 @@
 export enum booleanLogic {
     None = "None",
     AND = "AND",
-    // OR = "OR",
+    OR = "OR",
     NOT = "NOT"
 }
 
