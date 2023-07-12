@@ -23,7 +23,7 @@ const registerStatusBox = (status) => {
           textAlign: "center",
         }}
       >
-        <Typography>Account created, you can login now!</Typography>
+        <Typography>Account created, you can sign in now!</Typography>
       </Box>
     );
   } else {
@@ -40,7 +40,7 @@ const registerStatusBox = (status) => {
   }
 };
 
-export function UserCreate() {
+export const UserCreate = ({setPage}) => {
   const [emailError, setEmailError] = React.useState('')
   const [passwordError, setPWError] = React.useState('')
   const [usernameError, setUsernameError] = React.useState('')
@@ -168,7 +168,7 @@ export function UserCreate() {
             </Button>
             {status && registerStatusBox(status)}
             <Grid container justifyContent="center">
-              <Link href="#" variant="body2">
+              <Link onClick={() => { setPage(0)} } variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
