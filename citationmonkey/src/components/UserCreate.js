@@ -1,42 +1,97 @@
-import React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import CssBaseline from '@mui/material/CssBaseline'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import Typography from '@mui/material/Typography'
-import Container from '@mui/material/Container'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import axios from 'axios';
+import React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Link } from "@mui/material";
+import axios from "axios";
 
-const defaultTheme = createTheme()
+const defaultTheme = createTheme();
+
+const registerStatusBox = (status) => {
+  if (status === "success") {
+    return (
+      <Box
+        sx={{
+          color: "#318500",
+          textAlign: "center",
+        }}
+      >
+        <Typography>Account created, you can login now!</Typography>
+      </Box>
+    );
+  } else {
+    return (
+      <Box
+        sx={{
+          color: "#FF0000",
+          textAlign: "center",
+        }}
+      >
+        <Typography>Registration failed, please verify your input.</Typography>
+      </Box>
+    );
+  }
+};
 
 export function UserCreate() {
-  const [status, setStatus] = React.useState("");
+  const [emailError, setEmailError] = React.useState('')
+  const [passwordError, setPWError] = React.useState('')
+  const [usernameError, setUsernameError] = React.useState('')
+
+  const [status, setStatus] = React.useState('')
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const email = data.get('email')
-    const password = data.get('password')
-    const username = data.get('username')
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const email = data.get("email");
+    const password = data.get("password");
+    const username = data.get("username");
 
-    axios.post("http://54.242.252.72/signup", {
-      email: email,
-      password: password,
-      name: username,
-    }).then(function (response) {
-      console.log(response);
-      // This will have to be changed later
-      setStatus(response.data)
-    })
-      .catch(function (error) {
-        console.log(error);
-        setStatus(error);
-      });
-  }
+    if (!email) {
+      setEmailError("Email is required");
+    } else {
+      setEmailError("");
+    }
+
+    if (!password) {
+      setPWError("Password is required")
+    } else {
+      setPWError("");
+    }
+
+    if (!username) {
+      setUsernameError("Username is required")
+    } else {
+      setUsernameError("");
+    }
+
+    if (email && password && username) {
+      axios
+        .post("http://54.242.252.72/signup", {
+          email: email,
+          password: password,
+          name: username,
+        })
+        .then(function (response) {
+          if (response.data && response.data === "success") {
+            setStatus("success");
+          } else {
+            setStatus("failed");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+          setStatus(error);
+        });
+    }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -45,18 +100,23 @@ export function UserCreate() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -65,7 +125,9 @@ export function UserCreate() {
                   required
                   fullWidth
                   id="username"
-                  label="First Name"
+                  label="Username"
+                  error={usernameError ? true : false}
+                  helperText={usernameError}
                   autoFocus
                 />
               </Grid>
@@ -77,8 +139,8 @@ export function UserCreate() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
-                  error={(status === "Invalid email provided, already exists!") ? true : false}
-                  helperText={(status === "Invalid email provided, already exists!") ? status : ""}
+                  error={emailError ? true : false}
+                  helperText={emailError}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -90,9 +152,12 @@ export function UserCreate() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  error={passwordError ? true : false}
+                  helperText={passwordError}
                 />
               </Grid>
             </Grid>
+
             <Button
               type="submit"
               fullWidth
@@ -101,29 +166,15 @@ export function UserCreate() {
             >
               Sign Up
             </Button>
+            {status && registerStatusBox(status)}
             <Grid container justifyContent="center">
-              <Grid item>
-                {/* <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link> */}
-              </Grid>
+              <Link href="#" variant="body2">
+                Already have an account? Sign in
+              </Link>
             </Grid>
           </Box>
         </Box>
-        {
-          status === "success" &&
-          <Box
-            sx={{
-              backgroundColor: '#2ED810',
-              textAlign: 'center',
-            }}
-          >
-            <Typography>
-              User successfully created!
-            </Typography>
-          </Box>
-        }
       </Container>
     </ThemeProvider>
-  )
+  );
 }

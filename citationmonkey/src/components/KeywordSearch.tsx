@@ -53,11 +53,6 @@ export function KeywordSearch() {
         setData(null)
     }
 
-    // Why don't I just put this in the clearQuery command and remove a useEffect?
-    // because react will not reload the first queryParam despite having
-    // different prop values due to the default value being cleared
-    // why? probabaly since it is a reference idk so now we get this 
-    // ugly hack
     useEffect(() => {
         if (conditionNumber == 0) {
             queryParams.current.set(1, defaultFirstConditionVal)
@@ -67,8 +62,17 @@ export function KeywordSearch() {
 
     const displayData = () => {
         if (data == null) return <></>
-        else if (data.length == 0) return <Typography component={'div'}>No Entries Found</Typography>
-        else {
+        else if (data.length === 0) {
+            return (
+                <Box
+                    sx={{
+                        color: "#FF0000",
+                        textAlign: "center",
+                    }}
+                >
+                    <Typography>No Entries Found</Typography>
+                </Box>)
+        } else {
             return (
                 data.map((id) => {
                     return (
