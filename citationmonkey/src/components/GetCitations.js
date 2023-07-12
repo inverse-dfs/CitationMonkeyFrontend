@@ -16,18 +16,32 @@ const defaultTheme = createTheme()
 
 
 export function GetCitations() {
+    const [status, setStatus] = React.useState("");
+    const [paperIdError, setPaperIdError] = React.useState("");
+
     const [data, setData] = React.useState(null);
     const handleSubmit = (event) => {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
-        const paper_id = data.get('rootid')
-        axios.get("http://54.242.252.72/citations/"+paper_id).then(function (response) {
-            console.log(response);
-            setData(response.data)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+        const paper_id = data.get('paperid')
+
+        if (!paper_id) {
+            setPaperIdError('Paper ID is required')
+        } else {
+            setPaperIdError('')
+            axios.get("http://54.242.252.72/citations/" + paper_id).then(function (response) {
+                setData(response.data)
+
+                if (response.data.length === 0) {
+                    setStatus('no results')
+                } else {
+                    setStatus('')
+                }
+            })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
     }
 
     return (
@@ -53,12 +67,14 @@ export function GetCitations() {
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete="paperid"
-                                    name="rootid"
+                                    name="paperid"
                                     required
                                     fullWidth
-                                    id="rootid"
+                                    id="paperid"
                                     label="Root Paper ID"
                                     autoFocus
+                                    error={paperIdError ? true : false}
+                                    helperText={paperIdError}
                                 />
                             </Grid>
                         </Grid>
@@ -81,6 +97,16 @@ export function GetCitations() {
                         alignItems: 'center',
                     }}
                 >
+                    {status &&
+                        <Box
+                            sx={{
+                                color: "#FF0000",
+                                textAlign: "center",
+                            }}
+                        >
+                            <Typography>No Linked Citations for Paper</Typography>
+                        </Box>
+                    }
                     {data &&
                         data.map((id) => {
                             return (

@@ -81,7 +81,6 @@ export function UserLogin() {
           password: password,
         })
         .then(function (response) {
-          console.log(response);
           if (
             response.data &&
             (response.data === "Login Validated" ||

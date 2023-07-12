@@ -14,46 +14,57 @@ import axios from "axios";
 const defaultTheme = createTheme();
 
 const updatePaperStatusBox = (status) => {
-    if (status === "success") {
-      return (
-        <Box
-          sx={{
-            color: "#318500",
-            textAlign: "center",
-          }}
-        >
-          <Typography>Paper updated successfully!</Typography>
-        </Box>
-      );
+    if (status === "Success") {
+        return (
+            <Box
+                sx={{
+                    color: "#318500",
+                    textAlign: "center",
+                }}
+            >
+                <Typography>Paper updated successfully!</Typography>
+            </Box>
+        );
+    } else if (status === "no exist") {
+        return (
+            <Box
+                sx={{
+                    color: "#FF0000",
+                    textAlign: "center",
+                }}
+            >
+                <Typography>Paper ID is not valid, try again.</Typography>
+            </Box>
+        );
     } else {
-      return (
-        <Box
-          sx={{
-            color: "#FF0000",
-            textAlign: "center",
-          }}
-        >
-          <Typography>Update failed, please try again.</Typography>
-        </Box>
-      );
+        return (
+            <Box
+                sx={{
+                    color: "#FF0000",
+                    textAlign: "center",
+                }}
+            >
+                <Typography>Update failed, please try again.</Typography>
+            </Box>
+        );
     }
-  };
+};
 
 export function UpdatePaper() {
     const [status, setStatus] = React.useState("");
-    const [rootIdError, setRootIdError] = React.useState("");
+    const [paperIdError, setPaperIdError] = React.useState("");
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const payload = {
-            rootid: data.get("rootid"),
+            paper_id: data.get("paperid"),
         };
 
-        if (!payload.rootid) {
-            setRootIdError("Paper ID is required");
+        if (!payload.paper_id) {
+            setPaperIdError("Paper ID is required");
         } else {
-            setRootIdError("");
+            setPaperIdError("");
             const potential_fields = [
                 "title",
                 "abstract",
@@ -69,15 +80,14 @@ export function UpdatePaper() {
                 "year",
             ];
             for (const x of potential_fields) {
-                if (data.has(x)) {
+                if (data.has(x) && data.get(x) !== '') {
                     payload[x] = data.get(x);
                 }
             }
 
             axios
-                .post("http://54.242.252.72/upload", payload)
+                .post("http://54.242.252.72/update", payload)
                 .then(function (response) {
-                    console.log(response);
                     setStatus(response.data);
                 })
                 .catch(function (error) {
@@ -114,14 +124,14 @@ export function UpdatePaper() {
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete="paperid"
-                                    name="rootid"
+                                    name="paperid"
                                     required
                                     fullWidth
-                                    id="rootid"
+                                    id="paperid"
                                     label="Paper ID"
                                     autoFocus
-                                    error={rootIdError ? true : false}
-                                    helperText={rootIdError}
+                                    error={paperIdError ? true : false}
+                                    helperText={paperIdError}
                                 />
                             </Grid>
                             <Grid item xs={12}>

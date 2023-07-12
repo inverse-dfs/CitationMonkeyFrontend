@@ -65,7 +65,6 @@ export function AddPaper() {
     };
 
     if (!payload.author_id) {
-      console.log(1);
       setErrorStatusObj({
         ...errorStatusObj,
         author_id: "Field is required",
@@ -134,7 +133,6 @@ export function AddPaper() {
       axios
         .put("http://54.242.252.72/publish", payload)
         .then(function (response) {
-          console.log(response);
           setStatus(response.data);
         })
         .catch(function (error) {

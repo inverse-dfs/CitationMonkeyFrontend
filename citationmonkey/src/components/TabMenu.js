@@ -8,8 +8,6 @@ import { AddPaper } from "./AddPaper"
 import { GetCitations } from "./GetCitations"
 import { KeywordSearch } from "./KeywordSearch"
 import { UpdatePaper } from "./UpdatePaper"
-import { UserCreate } from "./UserCreate"
-import { UserLogin } from "./UserLogin"
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
