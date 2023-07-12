@@ -1,6 +1,6 @@
 export { GetCitations } from './GetCitations.js'
 export { AddPaper } from './AddPaper.js'
-export { KeywordSearch } from './KeywordSearch.js'
+export { KeywordSearch } from './KeywordSearch.tsx'
 export { UserCreate } from './UserCreate.js'
 export { UserLogin } from './UserLogin.js'
 export { TabMenu } from './TabMenu.js'

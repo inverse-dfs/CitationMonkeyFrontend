@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import { useState } from "react"
 import { AddPaper } from "./AddPaper"
 import { GetCitations } from "./GetCitations"
-import { KeywordSearch } from "./KeywordSearch"
+import { KeywordSearch } from "./KeywordSearch.tsx"
 import { UpdatePaper } from "./UpdatePaper"
 
 function TabPanel(props) {
