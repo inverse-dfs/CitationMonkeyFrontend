@@ -111,7 +111,7 @@ export function EloBattle() {
                                             sx={{ mt: 3, mb: 2 }}
                                             onClick={() => { getLeaderBoard() }}
                                         >
-                                            See elo leaderboard!
+                                            Toggle elo leaderboard!
                                         </Button>
                                     </Box>
                                 </Grid>
