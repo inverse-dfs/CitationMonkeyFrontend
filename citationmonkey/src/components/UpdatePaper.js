@@ -33,7 +33,7 @@ const updatePaperStatusBox = (status) => {
                     textAlign: "center",
                 }}
             >
-                <Typography>Invalid Paper ID or identical updated values provided.</Typography>
+                <Typography>Invalid Paper ID or no new values provided.</Typography>
             </Box>
         );
     } else {
