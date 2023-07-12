@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import AddIcon from "@mui/icons-material/Add";
+import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 
@@ -33,7 +33,7 @@ const updatePaperStatusBox = (status) => {
                     textAlign: "center",
                 }}
             >
-                <Typography>Paper ID is not valid, try again.</Typography>
+                <Typography>Invalid Paper ID or identical updated values provided.</Typography>
             </Box>
         );
     } else {
@@ -63,6 +63,7 @@ export function UpdatePaper() {
 
         if (!payload.paper_id) {
             setPaperIdError("Paper ID is required");
+            setStatus('')
         } else {
             setPaperIdError("");
             const potential_fields = [
@@ -109,7 +110,7 @@ export function UpdatePaper() {
                     }}
                 >
                     <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                        <AddIcon />
+                        <UpgradeIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Update Paper
