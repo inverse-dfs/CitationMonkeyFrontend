@@ -23,7 +23,7 @@ const loginStatusBox = (status) => {
           textAlign: "center",
         }}
       >
-        <Typography>Successfully Logged in!</Typography>
+        <Typography>Successfully logged in!</Typography>
       </Box>
     );
   } else if (status === "Login Rejected") {
@@ -37,7 +37,7 @@ const loginStatusBox = (status) => {
         <Typography>Credentials Invalid!</Typography>
       </Box>
     );
-  } else {
+  } else if (status === "failed") {
     return (
       <Box
         sx={{
@@ -48,10 +48,12 @@ const loginStatusBox = (status) => {
         <Typography>Login verification failed, try again.</Typography>
       </Box>
     );
+  } else {
+    return (<></>)
   }
 };
 
-export function UserLogin() {
+export const UserLogin = ({setLoggedIn, setPage}) => {
   const [emailError, setEmailError] = React.useState("");
   const [passwordError, setPWError] = React.useState("");
   const [status, setStatus] = React.useState("");
@@ -81,12 +83,14 @@ export function UserLogin() {
           password: password,
         })
         .then(function (response) {
-          if (
-            response.data &&
-            (response.data === "Login Validated" ||
-              response.data === "Login Rejected")
-          ) {
-            setStatus(response.data);
+          if (response.data) {
+            if (response.data === "Login Validated") {
+              setLoggedIn(true)
+            } else if (response.data === "Login Rejected") {
+              setStatus(response.data)
+            } else {
+              setStatus("failed");
+            }
           } else {
             setStatus("failed");
           }
@@ -157,7 +161,7 @@ export function UserLogin() {
             {status && loginStatusBox(status)}
             <Grid container justifyContent="center">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link onClick={() => { setPage(1)} } variant="body2">
                   Don't have an account? Sign Up
                 </Link>
               </Grid>

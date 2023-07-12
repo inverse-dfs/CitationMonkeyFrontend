@@ -4,10 +4,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Typography from '@mui/material/Typography'
 import { useState } from "react"
-import { AddPaper } from "./AddPaper"
-import { GetCitations } from "./GetCitations"
-import { KeywordSearch } from "./KeywordSearch.tsx"
-import { UpdatePaper } from "./UpdatePaper"
+import * as comps from '../components'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props
@@ -54,16 +51,16 @@ export function TabMenu() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <AddPaper />
+                <comps.AddPaper />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <UpdatePaper />
+                <comps.UpdatePaper />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <GetCitations />
+                <comps.GetCitations />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <KeywordSearch />
+                <comps.KeywordSearch />
             </TabPanel>
         </Box>
     )

@@ -1,8 +1,15 @@
-import * as comps from './components'
+import React from 'react'
+import * as screens from './screens'
+import { useState } from 'react'
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(false);
   return (
-    <comps.TabMenu/>
+    <>
+      {
+        loggedIn ? <screens.TabMenu /> : <screens.AuthScreen setLoggedIn={setLoggedIn}/>
+      }
+    </>
   )
 }
 
