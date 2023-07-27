@@ -11,6 +11,7 @@ import Container from '@mui/material/Container'
 import FlakyIcon from '@mui/icons-material/Flaky'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios'
+import { BASE_URL } from '../types/url.ts'
 
 const defaultTheme = createTheme()
 

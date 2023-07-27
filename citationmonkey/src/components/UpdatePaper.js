@@ -11,6 +11,7 @@ import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import * as util from '../utilities'
+import { BASE_URL } from '../types/url.ts'
 
 const defaultTheme = createTheme();
 

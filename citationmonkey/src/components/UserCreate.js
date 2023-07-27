@@ -11,6 +11,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Link } from "@mui/material";
 import axios from "axios";
+import { BASE_URL } from '../types/url.ts'
 
 const defaultTheme = createTheme();
 

@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios';
 import QueryParam from './QueryParam.tsx'
 import { booleanLogic, equality, queryField, queryObject } from '../types/queries.ts'
+import { BASE_URL } from '../types/url.ts'
 
 const defaultTheme = createTheme()
 
