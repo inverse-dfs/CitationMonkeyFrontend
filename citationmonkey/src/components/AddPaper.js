@@ -148,7 +148,7 @@ export function AddPaper() {
       }
 
       axios
-        .put("http://54.242.252.72/publish", payload)
+        .put(BASE_URL + "publish", payload)
         .then(function (response) {
           setStatus(response.data);
         })

@@ -88,7 +88,7 @@ export const UserCreate = ({ setPage }) => {
 
     if (valid) {
       axios
-        .post("http://54.242.252.72/signup", {
+        .post(BASE_URL + "signup", {
           email: email,
           password: password,
           name: username,

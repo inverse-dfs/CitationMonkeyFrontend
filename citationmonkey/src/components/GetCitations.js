@@ -34,7 +34,7 @@ export function GetCitations() {
             setPaperIdError("Paper ID must be a number");      
         }  else {
             setPaperIdError('')
-            axios.get("http://54.242.252.72/citations/" + paper_id).then(function (response) {
+            axios.get(BASE_URL + "citations/" + paper_id).then(function (response) {
                 console.log(response.data)
                 setData(response.data)
 
