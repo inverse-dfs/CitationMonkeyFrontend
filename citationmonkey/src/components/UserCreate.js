@@ -34,13 +34,13 @@ const registerStatusBox = (status) => {
           textAlign: "center",
         }}
       >
-        <Typography>Registration failed, please verify your input.</Typography>
+        <Typography>Registration failed, verify your email isn't in use.</Typography>
       </Box>
     );
   }
 };
 
-export const UserCreate = ({setPage}) => {
+export const UserCreate = ({ setPage }) => {
   const [emailError, setEmailError] = React.useState('')
   const [passwordError, setPWError] = React.useState('')
   const [usernameError, setUsernameError] = React.useState('')
@@ -53,26 +53,40 @@ export const UserCreate = ({setPage}) => {
     const email = data.get("email");
     const password = data.get("password");
     const username = data.get("username");
+    var valid = true
+    setStatus('');
 
     if (!email) {
-      setEmailError("Email is required");
+      setEmailError("Email is required")
+      valid = false
+    } else if (!email.includes("@")) {
+      setEmailError("Please provide a valid email")
+      valid = false
     } else {
-      setEmailError("");
+      setEmailError("")
     }
 
     if (!password) {
       setPWError("Password is required")
+      valid = false
+    } else if (password.length < 8) {
+      setPWError("Password must be at least 8 characters long")
+      valid = false
     } else {
-      setPWError("");
+      setPWError("")
     }
 
     if (!username) {
       setUsernameError("Username is required")
+      valid = false
+    } else if (username.length < 4) {
+      setUsernameError("Username must be at least 4 characters long")
+      valid = false
     } else {
-      setUsernameError("");
+      setUsernameError("")
     }
 
-    if (email && password && username) {
+    if (valid) {
       axios
         .post("http://54.242.252.72/signup", {
           email: email,
@@ -168,7 +182,7 @@ export const UserCreate = ({setPage}) => {
             </Button>
             {status && registerStatusBox(status)}
             <Grid container justifyContent="center">
-              <Link onClick={() => { setPage(0)} } variant="body2">
+              <Link onClick={() => { setPage(0) }} variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

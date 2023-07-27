@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import UpgradeIcon from '@mui/icons-material/Upgrade';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import * as util from '../utilities'
 
 const defaultTheme = createTheme();
 
@@ -63,6 +64,9 @@ export function UpdatePaper() {
 
         if (!payload.paper_id) {
             setPaperIdError("Paper ID is required");
+            setStatus('')
+        } else if (!util.checkIntInput(payload.paper_id)) {
+            setPaperIdError("Paper ID must be a number");
             setStatus('')
         } else {
             setPaperIdError("");

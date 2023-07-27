@@ -10,6 +10,7 @@ import Container from "@mui/material/Container";
 import AddIcon from "@mui/icons-material/Add";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import * as util from '../utilities'
 
 const defaultTheme = createTheme();
 
@@ -63,11 +64,18 @@ export function AddPaper() {
       n_citation: data.get("n_citations"),
       url: data.get("url"),
     };
+    setStatus('')
 
     if (!payload.author_id) {
       setErrorStatusObj({
         ...errorStatusObj,
-        author_id: "Field is required",
+        author_id: "Required Field",
+      });
+      validPayload = false;
+    } else if (!util.checkIntInput(payload.author_id)) {
+      setErrorStatusObj({
+        ...errorStatusObj,
+        author_id: "Invalid Entry",
       });
       validPayload = false;
     } else {
@@ -75,35 +83,44 @@ export function AddPaper() {
     }
 
     if (!payload.title) {
-      setErrorStatusObj((old) => { return { ...old, title: "Field is required" } })
+      setErrorStatusObj((old) => { return { ...old, title: "Required Field" } })
       validPayload = false;
     } else {
       setErrorStatusObj((old) => { return { ...old, title: "" } })
     }
 
     if (!payload.year) {
-      setErrorStatusObj((old) => { return { ...old, year: "Field is required" } })
+      setErrorStatusObj((old) => { return { ...old, year: "Required Field" } })
+      validPayload = false;
+    } else if (!util.checkIntInput(payload.year) || payload.year.length !== 4) {
+      setErrorStatusObj((old) => { return { ...old, year: "Invalid Year" } })
       validPayload = false;
     } else {
       setErrorStatusObj((old) => { return { ...old, year: "" } })
     }
 
     if (!payload.fos_name) {
-      setErrorStatusObj((old) => { return { ...old, fos_name: "Field is required" } })
+      setErrorStatusObj((old) => { return { ...old, fos_name: "Required Field" } })
       validPayload = false;
     } else {
       setErrorStatusObj((old) => { return { ...old, fos_name: "" } })
     }
 
     if (!payload.n_citation) {
-      setErrorStatusObj((old) => { return { ...old, n_citation: "Field is required" } });
+      setErrorStatusObj((old) => { return { ...old, n_citation: "Required Field" } });
+      validPayload = false;
+    } else if (!util.checkIntInput(payload.n_citation)) {
+      setErrorStatusObj((old) => { return { ...old, n_citation: "Invalid Entry" } });
       validPayload = false;
     } else {
       setErrorStatusObj((old) => { return { ...old, n_citation: "" } });
     }
 
     if (!payload.url) {
-      setErrorStatusObj((old) => { return { ...old, url: "Field is required" } })
+      setErrorStatusObj((old) => { return { ...old, url: "Required Field" } })
+      validPayload = false;
+    } else if (!payload.url.includes('.')) {
+      setErrorStatusObj((old) => { return { ...old, url: "Invalid URL" } })
       validPayload = false;
     } else {
       setErrorStatusObj((old) => { return { ...old, url: "" } })
