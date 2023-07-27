@@ -35,6 +35,7 @@ export function GetCitations() {
         }  else {
             setPaperIdError('')
             axios.get(BASE_URL + "citations/" + paper_id).then(function (response) {
+                console.log(response.data)
                 setData(response.data)
 
                 if (response.data.length === 0) {
