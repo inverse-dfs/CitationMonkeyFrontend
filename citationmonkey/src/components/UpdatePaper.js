@@ -91,7 +91,7 @@ export function UpdatePaper() {
             }
 
             axios
-                .post("http://54.242.252.72/update", payload)
+                .post(BASE_URL + "update", payload)
                 .then(function (response) {
                     setStatus(response.data);
                 })

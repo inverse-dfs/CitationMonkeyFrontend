@@ -22,7 +22,7 @@ export function EloBattle() {
 
     const getAuthors = () => {
         setLeaderboard([])
-        axios.get("http://54.242.252.72/challenge").then(function (response) {
+        axios.get(BASE_URL + "challenge").then(function (response) {
             console.log(response)
 
             if (response.data.length === 2) {
@@ -43,7 +43,7 @@ export function EloBattle() {
         } else {
             payload = { winner: author1[0], loser: author0[0] }
         }
-        axios.post("http://54.242.252.72/result", payload).then(function (response) {
+        axios.post(BASE_URL + "result", payload).then(function (response) {
             console.log(response)
             setAuthor0(null)
             setAuthor1(null)
@@ -57,7 +57,7 @@ export function EloBattle() {
 
     const getLeaderBoard = () => {
         if (leaderboard.length === 0) {
-            axios.get("http://54.242.252.72/leaderboard").then(function (response) {
+            axios.get(BASE_URL + "leaderboard").then(function (response) {
             console.log(response)
             setLeaderboard(response.data)
         })

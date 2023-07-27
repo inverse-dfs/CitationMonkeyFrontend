@@ -1,0 +1,1 @@
+const BASE_URL = "http://54.242.252.72/"

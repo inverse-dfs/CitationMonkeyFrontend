@@ -26,7 +26,7 @@ export function KeywordSearch() {
         // console.log(queryParams.current)
         const obj = Object.fromEntries(queryParams.current)
         console.log(obj)
-        axios.post("http://54.242.252.72/keywords", obj).then(function (response) {
+        axios.post(BASE_URL + "keywords", obj).then(function (response) {
             console.log(response);
             setData(response.data)
         })

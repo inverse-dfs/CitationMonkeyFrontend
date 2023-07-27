@@ -78,7 +78,7 @@ export const UserLogin = ({setLoggedIn, setPage}) => {
 
     if (email && password) {
       axios
-        .post("http://54.242.252.72/login", {
+        .post(BASE_URL + "login", {
           email: email,
           password: password,
         })
