@@ -64,6 +64,7 @@ export function AddPaper() {
       n_citation: data.get("n_citations"),
       url: data.get("url"),
     };
+    setStatus('')
 
     if (!payload.author_id) {
       setErrorStatusObj({
