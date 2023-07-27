@@ -30,6 +30,7 @@ export function GetCitations() {
         } else {
             setPaperIdError('')
             axios.get("http://54.242.252.72/citations/" + paper_id).then(function (response) {
+                console.log(response.data)
                 setData(response.data)
 
                 if (response.data.length === 0) {
