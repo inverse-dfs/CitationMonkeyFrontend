@@ -87,10 +87,10 @@ export function KeywordSearch() {
                                 <strong>Paper Id: </strong> {id[0]}
                             </Typography>
                             <Typography component={'div'}>
-                                <strong>Title: </strong> {id[1]}
+                                <strong>Author: </strong> {id[1]}
                             </Typography>
                             <Typography component={'div'}>
-                                <strong>Field of Study:  </strong> {id[3]}
+                                <strong>Title:  </strong> {id[3]}
                             </Typography>
                             <Divider component={'div'} sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
                         </Box>
