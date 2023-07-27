@@ -11,6 +11,7 @@ import Container from '@mui/material/Container'
 import LinkIcon from '@mui/icons-material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import axios from 'axios';
+import * as util from '../utilities'
 
 const defaultTheme = createTheme()
 
@@ -24,10 +25,14 @@ export function GetCitations() {
         event.preventDefault()
         const data = new FormData(event.currentTarget)
         const paper_id = data.get('paperid')
+        setStatus('')
+        setData(null)
 
         if (!paper_id) {
             setPaperIdError('Paper ID is required')
-        } else {
+        } else if (!util.checkIntInput(paper_id)) {
+            setPaperIdError("Paper ID must be a number");      
+        }  else {
             setPaperIdError('')
             axios.get("http://54.242.252.72/citations/" + paper_id).then(function (response) {
                 setData(response.data)
