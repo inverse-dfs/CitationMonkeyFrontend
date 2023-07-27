@@ -47,8 +47,9 @@ export function TabMenu() {
                     <Tab label="Add Paper" {...a11yProps(0)} />
                     <Tab label="Update Paper" {...a11yProps(1)} />
                     <Tab label="Find Linked Citations" {...a11yProps(2)} />
-                    <Tab label="Paper Keyword Search" {...a11yProps(3)} />
-                    <Tab label="Elo Battle" {...a11yProps(4)} />
+                    <Tab label="Citation Graph" {...a11yProps(3)} />
+                    <Tab label="Paper Keyword Search" {...a11yProps(4)} />
+                    <Tab label="Elo Battle" {...a11yProps(5)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -61,9 +62,12 @@ export function TabMenu() {
                 <comps.GetCitations />
             </TabPanel>
             <TabPanel value={value} index={3}>
-                <comps.KeywordSearch />
+                <comps.CitGraph />
             </TabPanel>
             <TabPanel value={value} index={4}>
+                <comps.KeywordSearch />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
                 <comps.EloBattle />
             </TabPanel>
         </Box>
