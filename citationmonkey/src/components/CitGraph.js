@@ -5,6 +5,7 @@ import { Editbar } from './CitGraphComponents/Editbar'
 import misData from './CitGraphComponents/miserables.json'
 import axios from 'axios';
 import { CompletionTriggerKind } from 'typescript';
+import { BASE_URL } from '../types/url.ts'
 
 export function CitGraph() {
   const genTree = (N, idOffset, group) => {
@@ -105,7 +106,7 @@ export function CitGraph() {
         setPaperIdError('Paper ID is required')
     } else {
         setPaperIdError('')
-        axios.get("http://54.242.252.72/citations/" + paper_id).then(function (response) {
+        axios.get(BASE_URL + "citations/" + paper_id).then(function (response) {
           console.log(response.data)
           let formattedData = formatData(response.data)
           console.log(formattedData)

@@ -31,9 +31,7 @@ export function GetCitations() {
 
         if (!paper_id) {
             setPaperIdError('Paper ID is required')
-        } else if (!util.checkIntInput(paper_id)) {
-            setPaperIdError("Paper ID must be a number");      
-        }  else {
+        } else {
             setPaperIdError('')
             axios.get(BASE_URL + "citations/" + paper_id).then(function (response) {
                 console.log(response.data)
