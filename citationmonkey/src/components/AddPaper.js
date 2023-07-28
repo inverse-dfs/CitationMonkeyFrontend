@@ -73,12 +73,6 @@ export function AddPaper() {
         author_id: "Required Field",
       });
       validPayload = false;
-    } else if (!util.checkIntInput(payload.author_id)) {
-      setErrorStatusObj({
-        ...errorStatusObj,
-        author_id: "Invalid Entry",
-      });
-      validPayload = false;
     } else {
       setErrorStatusObj({ ...errorStatusObj, author_id: "" });
     }

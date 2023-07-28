@@ -66,9 +66,6 @@ export function UpdatePaper() {
         if (!payload.paper_id) {
             setPaperIdError("Paper ID is required");
             setStatus('')
-        } else if (!util.checkIntInput(payload.paper_id)) {
-            setPaperIdError("Paper ID must be a number");
-            setStatus('')
         } else {
             setPaperIdError("");
             const potential_fields = [
