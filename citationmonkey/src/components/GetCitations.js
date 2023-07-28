@@ -125,10 +125,10 @@ export function GetCitations() {
                                         <strong>Paper Id: </strong> {id[0]}
                                     </Typography>
                                     <Typography>
-                                        <strong>Title: </strong> {id[1]}
+                                        <strong>Title: </strong> {id[2]}
                                     </Typography>
                                     <Typography>
-                                        <strong># Citations:  </strong> {id[2]}
+                                        <strong># Citations:  </strong> {id[1]}
                                     </Typography>
                                     <Divider sx={{ ml: '15px', borderBottomWidth: 2, background: 'black' }} />
                                 </Box>
