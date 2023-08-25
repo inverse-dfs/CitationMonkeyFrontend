@@ -1,6 +1,7 @@
 This repository holds the code needed for the front end of our full stack application.
 
-Back End Repo: https://github.com/LangLazy/CS348
+Back End Repository: https://github.com/LangLazy/CS348
+Documentation & Explanation of Application: https://docs.google.com/document/d/1fhzpEmQA4ouarcNdiAoSV786qZkSFbV5YF3DugaaahE/edit?usp=sharing
 
 You need to have npm installed to run this app.
 
